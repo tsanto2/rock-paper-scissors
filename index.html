@@ -1,34 +1,86 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="style.css">
         <title>RPS ULTIMATE</title>
     </head>
 
     <body>
         <button id="shoot-button">SHOOT!</button>
-        <button id="restart-button">Try again.</button>
+        <button id="next-button">Next Round...</button>
+        <button id="restart-button">Restart Game.</button>
 
         <script>
-            var shootButton = document.getElementById('shoot-button');
-            var restartButton = document.getElementById('restart-button');
+            let shootButton = document.getElementById('shoot-button');
+            let nextButton = document.getElementById('next-button');
+            let restartButton = document.getElementById('restart-button');
 
-            let userChoiceEntry = prompt("Enter rock, paper, or scissors.");
+            let roundNum = 1;
+            let playerWins = 0;
+            let pcWins = 0;
+
+            nextButton.hidden = true;
+            shootButton.hidden = false;
+
+            let userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
 
             restartButton.onclick = function() {
-                userChoiceEntry = prompt("Enter rock, paper, or scissors.");
+                roundNum = 1;
+                playerWins = 0;
+                pcWins = 0;
+
+                userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
+
+                shootButton.hidden = false;
+                nextButton.hidden = true;
+            }
+
+            nextButton.onclick = function() {
+                userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
+                nextButton.hidden = true;
+                shootButton.hidden = false;
             }
 
             shootButton.onclick = function() {
                 let alertString = getWinner(userChoiceEntry, computerPlay());
                 if (alertString == undefined)
                     return;
-                else
-                    alert(alertString);
+                else{
+                    if (roundNum <= 5 && playerWins < 3 && pcWins < 3){
+                        shootButton.hidden = true;
+                        nextButton.hidden = false;
+                        alertString = alertString + "\n\nScore: \n\nPlayer - " + playerWins + " PC - " + pcWins;
+                        alert(alertString);
+                    }
+                    else if (playerWins >= 3){
+                        nextButton.hidden = true;
+                        shootButton.hidden = true;
+                        alert("YOU WIN!");
+                    }
+                    else if (pcWins >= 3){
+                        nextButton.hidden = true;
+                        shootButton.hidden = true;
+                        alert("YOU FUCKIN' SUCK!");
+                    }
+                    else if (roundNum > 4){
+                        nextButton.hidden = true;
+                        shootButton.hidden = true;
+                        if (playerWins > pcWins){
+                            alert("YOU WIN!");
+                        }
+                        else if (pcWins > playerWins){
+                            alert("YOU FUCKIN' SUCK!");
+                        }
+                        else{
+                            alert("Fuck you. You tied.");
+                        }
+                    }
+                }
             }
             
             function computerPlay() {
                 let random = Math.floor(Math.random() * 3);
-                
+
                 let result = "whoops";
                 switch (random) {
                     case 0:
@@ -55,12 +107,14 @@
                 let resultString = "Sum ting wong...";
 
                 if (userWin) {
+                    playerWins++;
                     resultString = "You win! " + setFrontCap(userChoice) + " beats " + pcChoice + "!";
                 }
                 else {
+                    pcWins++;
                     resultString = "You lost! " + setFrontCap(pcChoice) + " beats " + userChoice + "!";
                 }
-
+                roundNum++;
                 return resultString;
             }
             
@@ -79,6 +133,7 @@
                 let draw = (user == pc);
                 if (draw){
                     let resultString = "Draw! Both selected " + user + "!";
+                    roundNum++;
                     return resultString;
                 }
 
@@ -94,6 +149,8 @@
                         userWin = (pc == "paper");
                         break;
                     default:
+                        shootButton.hidden = true;
+                        nextButton.hidden = false;
                         alert("Something fucked up...");
                         return;
                 }

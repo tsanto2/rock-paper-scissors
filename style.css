@@ -1,0 +1,28 @@
+html,
+body{
+    margin: 50px;
+}
+
+#shoot-button{
+    padding: 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-weight: bolder;
+}
+#restart-button{
+    margin-left: 20px;
+    padding: 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-weight: bolder;
+}
+#next-button{
+    margin-left: 20px;
+    padding: 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-weight: bolder;
+}
