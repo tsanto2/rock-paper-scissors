@@ -6,157 +6,20 @@
     </head>
 
     <body>
+        <div id="text">
+            <p id="current-content"></p>
+            <br>
+            <p id="default-content">Select Rock, Paper, or Scissors, and then press Shoot!</p>
+        </div>
+
+        <button id="rock-btn">ROCK</button>
+        <button id="paper-btn">PAPER</button>
+        <button id="scissors-btn">SCISSORS</button>
+        <br>
         <button id="shoot-button">SHOOT!</button>
         <button id="next-button">Next Round...</button>
         <button id="restart-button">Restart Game.</button>
 
-        <script>
-            let shootButton = document.getElementById('shoot-button');
-            let nextButton = document.getElementById('next-button');
-            let restartButton = document.getElementById('restart-button');
-
-            let roundNum = 1;
-            let playerWins = 0;
-            let pcWins = 0;
-
-            nextButton.hidden = true;
-            shootButton.hidden = false;
-
-            let userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
-
-            restartButton.onclick = function() {
-                roundNum = 1;
-                playerWins = 0;
-                pcWins = 0;
-
-                userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
-
-                shootButton.hidden = false;
-                nextButton.hidden = true;
-            }
-
-            nextButton.onclick = function() {
-                userChoiceEntry = prompt("Round " + roundNum + "\nEnter rock, paper, or scissors.");
-                nextButton.hidden = true;
-                shootButton.hidden = false;
-            }
-
-            shootButton.onclick = function() {
-                let alertString = getWinner(userChoiceEntry, computerPlay());
-                if (alertString == undefined)
-                    return;
-                else{
-                    if (roundNum <= 5 && playerWins < 3 && pcWins < 3){
-                        shootButton.hidden = true;
-                        nextButton.hidden = false;
-                        alertString = alertString + "\n\nScore: \n\nPlayer - " + playerWins + " PC - " + pcWins;
-                        alert(alertString);
-                    }
-                    else if (playerWins >= 3){
-                        nextButton.hidden = true;
-                        shootButton.hidden = true;
-                        alert("YOU WIN!");
-                    }
-                    else if (pcWins >= 3){
-                        nextButton.hidden = true;
-                        shootButton.hidden = true;
-                        alert("YOU FUCKIN' SUCK!");
-                    }
-                    else if (roundNum > 4){
-                        nextButton.hidden = true;
-                        shootButton.hidden = true;
-                        if (playerWins > pcWins){
-                            alert("YOU WIN!");
-                        }
-                        else if (pcWins > playerWins){
-                            alert("YOU FUCKIN' SUCK!");
-                        }
-                        else{
-                            alert("Fuck you. You tied.");
-                        }
-                    }
-                }
-            }
-            
-            function computerPlay() {
-                let random = Math.floor(Math.random() * 3);
-
-                let result = "whoops";
-                switch (random) {
-                    case 0:
-                        result = "rock";
-                        break;
-                    case 1:
-                        result = "paper";
-                        break;
-                    case 2:
-                        result = "scissors";
-                        break;
-                }
-
-                return result;
-            }
-
-            function prepUserChoice(userCh) {
-                let choiceLower = userCh.toLowerCase();
-                
-                return choiceLower;
-            }
-
-            function getResultText(userChoice, pcChoice, userWin) {
-                let resultString = "Sum ting wong...";
-
-                if (userWin) {
-                    playerWins++;
-                    resultString = "You win! " + setFrontCap(userChoice) + " beats " + pcChoice + "!";
-                }
-                else {
-                    pcWins++;
-                    resultString = "You lost! " + setFrontCap(pcChoice) + " beats " + userChoice + "!";
-                }
-                roundNum++;
-                return resultString;
-            }
-            
-            function setFrontCap(stringToCap){
-                let frontChar = stringToCap.charAt(0);
-                let restOfStr = stringToCap.slice(1, stringToCap.length);
-                let frontCharCap = frontChar.toUpperCase();
-                let restOfStrLow = restOfStr.toLowerCase();
-
-                return frontCharCap + restOfStrLow;
-            }
-
-            function getWinner(user, pc) {
-                user = prepUserChoice(user);
-
-                let draw = (user == pc);
-                if (draw){
-                    let resultString = "Draw! Both selected " + user + "!";
-                    roundNum++;
-                    return resultString;
-                }
-
-                let userWin;
-                switch (user) {
-                    case "rock":
-                        userWin = (pc == "scissors");
-                        break;
-                    case "paper":
-                        userWin = (pc == "rock");
-                        break;
-                    case "scissors":
-                        userWin = (pc == "paper");
-                        break;
-                    default:
-                        shootButton.hidden = true;
-                        nextButton.hidden = false;
-                        alert("Something fucked up...");
-                        return;
-                }
-
-                return getResultText(user, pc, userWin);
-            }
-        </script>
+        <script type="text/javascript" src="./scripts.js"></script>
     </body>
 </html>

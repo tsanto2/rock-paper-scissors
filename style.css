@@ -1,6 +1,15 @@
 html,
 body{
-    margin: 50px;
+}
+
+#rock-btn, #paper-btn, #scissors-btn{
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    font-weight: bolder;
 }
 
 #shoot-button{
